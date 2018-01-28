@@ -18,11 +18,11 @@
 <div class="container-fluid">
     <div class="row p-3 mb-2 bg-warning text-dark">
         <div class="col-sm-4">
-            <a asp-controller="Home" asp-action="StartView"><h2>Gustav's Pizzeria</h2></a>
+            <a asp-controller="Home" asp-action="Index"><h2>Gustav's Pizzeria</h2></a>
         </div>
-        @*<div class="col-sm-4">
-            <a asp-controller="Home" asp-action="NewPost" class="text-primary">Create new Post</a>
-        </div>*@
+        <div class="col-sm-4">
+            <a asp-controller="Home" asp-action="Menu" class="text-primary">Menu</a>
+        </div>
         <div class="col-sm-4">
 
             @using (Html.BeginForm())

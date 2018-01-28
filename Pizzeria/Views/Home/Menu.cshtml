@@ -1,0 +1,15 @@
+﻿@model List<Pizzeria.Models.Matratt>
+
+    @foreach (var item in @Model)
+    {
+        <h1>Pizzor</h1>
+        if (@item.MatrattTyp == 1)
+        {
+            <h3>@item.MatrattNamn</h3>
+            foreach (var product in item.MatrattProdukt)
+            {
+                <p>@product.Produkt.ProduktNamn</p>
+            }
+
+        }
+    }

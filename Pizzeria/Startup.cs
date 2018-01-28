@@ -18,7 +18,7 @@ namespace Pizzeria
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddMvc();
-            var conn = @"Server=localhost;Database=MyDB;Trusted_Connection=True; ConnectRetryCount=0";
+            var conn = @"Server=localhost;Database=Tomasos;Trusted_Connection=True; ConnectRetryCount=0";
             services.AddDbContext<TomasosContext>(options => options.UseSqlServer(conn));
         }
 
