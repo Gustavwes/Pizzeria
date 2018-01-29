@@ -18,6 +18,15 @@ namespace Pizzeria.DAL
 
         }
 
+        public void EditCustomer(TomasosContext context, Kund editedCustomer, Kund currentCustomer)
+        {
+            
+            if (editedCustomer != null)
+            {
+                context.Entry(currentCustomer).CurrentValues.SetValues(editedCustomer);
+                context.SaveChanges();
+            }
+        }
         public List<Kund> GetAllCustomers(TomasosContext context)
         {
             var customerList = context.Kund;

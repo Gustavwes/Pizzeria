@@ -39,7 +39,7 @@
                 {
                     var temp = Context.Request.Cookies["LoggedIn"];
                     var existingMatch = JsonConvert.DeserializeObject<Kund>(temp);
-                    <a asp-controller="User" asp-action="LoginSuccessful">@existingMatch.AnvandarNamn</a>
+                    <a asp-controller="User" asp-action="UserInfo">@existingMatch.AnvandarNamn</a>
                 }
             </div>
         </div>

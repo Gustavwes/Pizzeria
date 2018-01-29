@@ -41,6 +41,20 @@ namespace Pizzeria.Controllers
             return View(user);
         }
 
+        public IActionResult UserInfo()
+        {
+            var temp = Request.Cookies["LoggedIn"];
+            var customer = JsonConvert.DeserializeObject<Kund>(temp);
+            return View(customer);
+        }
+        [HttpPost]
+        public IActionResult EditUserInfo(Kund editedCustomer)
+        {
+            var temp = Request.Cookies["LoggedIn"];
+            var customer = JsonConvert.DeserializeObject<Kund>(temp);
+
+            return View();
+        }
 
         [HttpPost]
         public IActionResult Login(Kund kund)
@@ -53,9 +67,9 @@ namespace Pizzeria.Controllers
             else
             {
                 var temp = Request.Cookies["LoggedIn"];
-                var existingMatch = JsonConvert.DeserializeObject<Kund>(temp);
+                var customer = JsonConvert.DeserializeObject<Kund>(temp);
               
-                return RedirectToAction("LoginSuccessful", existingMatch);
+                return RedirectToAction("LoginSuccessful", customer);
             }
             var dataAccess = new DataAccess();
 
