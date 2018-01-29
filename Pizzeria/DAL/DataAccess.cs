@@ -1,10 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using Pizzeria.Models;
+using Pizzeria.ViewModel;
 
 namespace Pizzeria.DAL
 {
@@ -18,14 +20,30 @@ namespace Pizzeria.DAL
 
         }
 
-        public void EditCustomer(TomasosContext context, Kund editedCustomer, Kund currentCustomer)
+        public void EditCustomer(TomasosContext context, KundViewModel editedCustomer, Kund currentCustomer)
         {
-            
-            if (editedCustomer != null)
-            {
-                context.Entry(currentCustomer).CurrentValues.SetValues(editedCustomer);
+            //var string
+            //Kund changedCustomer = new Kund()
+            //{
+            //    KundId = currentCustomer.KundId,
+            //    AnvandarNamn = editedCustomer.AnvandarNamn,
+            //    Email = editedCustomer.Email,
+            //    Gatuadress = editedCustomer.Gatuadress,
+            //    Postnr = editedCustomer.Postnr,
+            //    Postort = editedCustomer.Postort,
+            //    Namn = editedCustomer.Namn,
+            //    Telefon = editedCustomer.Telefon,
+            //    Losenord = editedCustomer.Losenord
+            //};
+
+            //foreach (PropertyInfo propertyInfo in currentCustomer.GetType().GetProperties())
+            //{
+            //    if (propertyInfo.GetValue(changedCustomer, null) != null)
+            //        propertyInfo.SetValue(currentCustomer, propertyInfo.GetValue(changedCustomer, null), null);
+            //}
+            //    context.Entry(currentCustomer).CurrentValues.SetValues(changedCustomer);
                 context.SaveChanges();
-            }
+            
         }
         public List<Kund> GetAllCustomers(TomasosContext context)
         {

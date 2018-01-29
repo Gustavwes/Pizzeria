@@ -7,6 +7,8 @@ using Newtonsoft.Json;
 using Pizzeria.DAL;
 using Pizzeria.Models;
 using System.Web;
+using Pizzeria.ViewModel;
+
 namespace Pizzeria.Controllers
 {
     public class UserController : Controller
@@ -47,13 +49,20 @@ namespace Pizzeria.Controllers
             var customer = JsonConvert.DeserializeObject<Kund>(temp);
             return View(customer);
         }
+
+        public IActionResult EditUserInfo()
+        {
+            return View();
+        }
         [HttpPost]
-        public IActionResult EditUserInfo(Kund editedCustomer)
+        public IActionResult EditUserInfo(KundViewModel editedCustomer)
         {
             var temp = Request.Cookies["LoggedIn"];
             var customer = JsonConvert.DeserializeObject<Kund>(temp);
+            var dataAccess = new DataAccess();
+            dataAccess.EditCustomer(_context,editedCustomer,customer);
 
-            return View();
+            return RedirectToAction("UserInfo");
         }
 
         [HttpPost]
