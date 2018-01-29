@@ -26,6 +26,7 @@
             </div>
             <div class="col-sm-4">
                 <a asp-controller="Home" asp-action="Menu" class="text-primary">Menu</a>
+                <a asp-controller="Order" asp-action="Cart">Kundvagn</a>
             </div>
             <div class="col-sm-4">
                 @if (Context.Request.Cookies["LoggedIn"] == null)

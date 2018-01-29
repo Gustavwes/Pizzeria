@@ -36,6 +36,20 @@ namespace Pizzeria.DAL
             return menuList;
         }
 
+        public void CreateOrder(TomasosContext context, Bestallning orderTotal, BestallningMatratt connection)
+        {
+            context.Add(orderTotal);
+            context.Add(connection);
+            context.SaveChanges();
+
+        }
+
+        public Matratt GetSpecificMatratt(TomasosContext context, int foodId)
+        {
+            var selectedItem = context.Matratt.FirstOrDefault(x => x.MatrattId == foodId);
+            return selectedItem;
+        }
+
         public List<MatrattProdukt> GetAllMatrattProdukts(TomasosContext context,int matId)
         {
             var matrattprodukts = context.MatrattProdukt.Where(x => x.MatrattId == matId).Include(y=>y.Produkt).ToList();

@@ -1,0 +1,10 @@
+﻿@using Newtonsoft.Json
+@using Pizzeria.Models
+@model Pizzeria.Models.Bestallning
+
+@if (Context.Request.Cookies["Cart"] != null)
+{
+    var temp = Context.Request.Cookies["Cart"];
+    var existingMatch = JsonConvert.DeserializeObject<Bestallning>(temp);
+    <p>@existingMatch.Totalbelopp</p>
+}
