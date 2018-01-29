@@ -1,0 +1,9 @@
+﻿@model Pizzeria.Models.Kund
+<form asp-controller="Home" asp-action="Login" method="post">
+    <label asp-for="AnvandarNamn">Username</label>
+    <input type="text" asp-for="AnvandarNamn"/>
+    <br /><br/>
+    <label asp-for="Losenord">Password</label>
+    <input type="text" asp-for="Losenord"/>
+    <input type="submit" value="Login"/>
+</form>

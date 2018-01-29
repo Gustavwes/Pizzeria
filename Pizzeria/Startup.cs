@@ -18,6 +18,9 @@ namespace Pizzeria
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddMvc();
+
+            services.AddSession();
+            services.AddDistributedMemoryCache();
             var conn = @"Server=localhost;Database=Tomasos;Trusted_Connection=True; ConnectRetryCount=0";
             services.AddDbContext<TomasosContext>(options => options.UseSqlServer(conn));
         }
@@ -30,6 +33,7 @@ namespace Pizzeria
                 app.UseDeveloperExceptionPage();
             }
             app.UseStaticFiles();
+            app.UseSession();
             app.UseMvc(routes =>
             {
                 routes.MapRoute(

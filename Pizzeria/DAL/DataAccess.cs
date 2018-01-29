@@ -18,6 +18,13 @@ namespace Pizzeria.DAL
 
         }
 
+        public List<Kund> GetAllCustomers(TomasosContext context)
+        {
+            var customerList = context.Kund;
+
+            return customerList.ToList();
+        }
+
         public List<Matratt> GetAllMenuItems(TomasosContext context)
         {
             var menuList = context.Matratt.Include(x=>x.MatrattProdukt).ToList();
