@@ -65,7 +65,21 @@ namespace Pizzeria.Controllers
             else
             {
                 var temp = Request.Cookies["LoggedIn"];
-                customerMatch = JsonConvert.DeserializeObject<Kund>(temp);
+               var existingMatch = JsonConvert.DeserializeObject<Kund>(temp);
+                customerMatch = new Kund()
+                {
+                    AnvandarNamn = existingMatch.AnvandarNamn,
+                    Losenord = existingMatch.AnvandarNamn,
+                    Bestallning = existingMatch.Bestallning,
+                    Email = existingMatch.Email,
+                    Gatuadress = existingMatch.Gatuadress,
+                    KundId = existingMatch.KundId,
+                    Namn = existingMatch.Namn,
+                    Postnr = existingMatch.Postnr,
+                    Postort = existingMatch.Postort,
+                    Telefon = existingMatch.Telefon
+                };
+
                 return RedirectToAction("LoginSuccessful", customerMatch);
             }
             var dataAccess= new DataAccess();
@@ -80,11 +94,11 @@ namespace Pizzeria.Controllers
             }
             if (customerMatch.AnvandarNamn == null)
             {
-                RedirectToAction("Login");
+               return RedirectToAction("Login");
             }
             var serializedValue = JsonConvert.SerializeObject(customerMatch);
             Response.Cookies.Append("LoggedIn", serializedValue);
-            return RedirectToAction("Login");
+            return RedirectToAction("LoginSuccessful");
 
         }
     }
