@@ -1,11 +1,16 @@
 ﻿@model List<Pizzeria.Models.Matratt>
 
+    <h1>Pizzor</h1>
     @foreach (var item in @Model)
     {
-        <h1>Pizzor</h1>
+
         if (@item.MatrattTyp == 1)
         {
             <h3>@item.MatrattNamn</h3>
+            <p>@item.Beskrivning</p>
+            <p>@item.Pris kr</p>
+            <a asp-controller="Order" asp-action="AddProduct" asp-route-id="@item.MatrattId">Beställ</a>
+            <h5>Ingredienser:</h5>
             foreach (var product in item.MatrattProdukt)
             {
                 <p>@product.Produkt.ProduktNamn</p>

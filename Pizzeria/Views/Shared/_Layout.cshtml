@@ -1,4 +1,4 @@
-﻿@model Pizzeria.Models.Kund
+﻿@*@model Pizzeria.Models.Kund*@
 @using Microsoft.AspNetCore.Http;
 @using Newtonsoft.Json
 @using Pizzeria.Models
@@ -30,14 +30,15 @@
             <div class="col-sm-4">
                 @if (Context.Request.Cookies["LoggedIn"] == null)
                 {
-                    <a asp-controller="Home" asp-action="Login">Login</a>
+                    <a asp-controller="User" asp-action="Login">Login</a>
+                    <a asp-controller="User" asp-action="RegisterCustomer" class="text-primary">Registrera</a>
                 }
 
                 @if (Context.Request.Cookies["LoggedIn"] != null)
                 {
                     var temp = Context.Request.Cookies["LoggedIn"];
                     var existingMatch = JsonConvert.DeserializeObject<Kund>(temp);
-                    <a asp-controller="Home" asp-action="LoginSuccessful">@existingMatch.AnvandarNamn</a>
+                    <a asp-controller="User" asp-action="LoginSuccessful">@existingMatch.AnvandarNamn</a>
                 }
             </div>
         </div>

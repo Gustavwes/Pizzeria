@@ -31,9 +31,15 @@ namespace Pizzeria.DAL
 
             foreach (var item in menuList)
             {
-                item.MatrattProdukt = context.MatrattProdukt.Include(x=>x.Produkt).ToList();
+                item.MatrattProdukt = GetAllMatrattProdukts(context, item.MatrattId);
             }
             return menuList;
+        }
+
+        public List<MatrattProdukt> GetAllMatrattProdukts(TomasosContext context,int matId)
+        {
+            var matrattprodukts = context.MatrattProdukt.Where(x => x.MatrattId == matId).Include(y=>y.Produkt).ToList();
+            return matrattprodukts;
         }
     }
 }
