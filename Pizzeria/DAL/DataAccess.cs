@@ -36,12 +36,19 @@ namespace Pizzeria.DAL
             return menuList;
         }
 
-        public void CreateOrder(TomasosContext context, Bestallning orderTotal, BestallningMatratt connection)
+        public void CreateOrderConnection(TomasosContext context, BestallningMatratt connection)
         {
-            context.Add(orderTotal);
+            
             context.Add(connection);
             context.SaveChanges();
 
+        }
+
+        public void CreateOrder(TomasosContext context, Bestallning order)
+        {
+            context.Add(order);
+            context.SaveChanges();
+            
         }
 
         public Matratt GetSpecificMatratt(TomasosContext context, int foodId)

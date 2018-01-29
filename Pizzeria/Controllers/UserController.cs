@@ -6,7 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 using Pizzeria.DAL;
 using Pizzeria.Models;
-
+using System.Web;
 namespace Pizzeria.Controllers
 {
     public class UserController : Controller
@@ -54,21 +54,8 @@ namespace Pizzeria.Controllers
             {
                 var temp = Request.Cookies["LoggedIn"];
                 var existingMatch = JsonConvert.DeserializeObject<Kund>(temp);
-                customerMatch = new Kund()
-                {
-                    AnvandarNamn = existingMatch.AnvandarNamn,
-                    Losenord = existingMatch.AnvandarNamn,
-                    Bestallning = existingMatch.Bestallning,
-                    Email = existingMatch.Email,
-                    Gatuadress = existingMatch.Gatuadress,
-                    KundId = existingMatch.KundId,
-                    Namn = existingMatch.Namn,
-                    Postnr = existingMatch.Postnr,
-                    Postort = existingMatch.Postort,
-                    Telefon = existingMatch.Telefon
-                };
-
-                return RedirectToAction("LoginSuccessful", customerMatch);
+              
+                return RedirectToAction("LoginSuccessful", existingMatch);
             }
             var dataAccess = new DataAccess();
 
@@ -86,9 +73,13 @@ namespace Pizzeria.Controllers
             }
             var serializedValue = JsonConvert.SerializeObject(customerMatch);
             Response.Cookies.Append("LoggedIn", serializedValue);
-            return RedirectToAction("LoginSuccessful");
+            return RedirectToAction("LoginSuccessful", customerMatch);
 
         }
+
+       
+
+      
 
     }
 }

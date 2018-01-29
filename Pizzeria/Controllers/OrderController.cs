@@ -20,49 +20,62 @@ namespace Pizzeria.Controllers
 
         public IActionResult AddProduct(int id)
         {
-            var orderTotal = new Bestallning();
+            //var orderList = new List<BestallningMatratt>();
             if (Request.Cookies["LoggedIn"] == null)
             {
                 return RedirectToAction("Login", "User");
             }
-            else
+
+            List<Matratt> foodList = new List<Matratt>();
+            if (Request.Cookies["Cart"] != null)
             {
-                var temp = Request.Cookies["LoggedIn"];
-                var existingMatch = JsonConvert.DeserializeObject<Kund>(temp);
+                var temp2 = Request.Cookies["Cart"];
+                foodList = JsonConvert.DeserializeObject<List<Matratt>>(temp2);
+            }
 
-                if (Request.Cookies["Cart"] == null)
+            DataAccess dataAccess = new DataAccess();
+            foodList.Add(dataAccess.GetSpecificMatratt(_context, id));
+
+            var serializedValue = JsonConvert.SerializeObject(foodList);
+            Response.Cookies.Append("Cart", serializedValue);
+
+            return RedirectToAction("Menu", "Home");
+        }
+
+        public IActionResult Checkout()
+        {
+            var temp = Request.Cookies["Cart"];
+            var temp2 = Request.Cookies["LoggedIn"];
+            var foodList = JsonConvert.DeserializeObject<List<Matratt>>(temp);
+            var customer = JsonConvert.DeserializeObject<Kund>(temp2);
+
+            var order = new Bestallning()
+            {
+                BestallningDatum = DateTime.Now,
+                KundId = customer.KundId,
+                Levererad = true,
+                Totalbelopp = foodList.Sum(x => x.Pris)
+
+            };
+            var dataAccess = new DataAccess();
+            dataAccess.CreateOrder(_context, order);
+
+
+            while (foodList.Count > 0)
+            {
+                var connection = new BestallningMatratt()
                 {
-
-                    orderTotal.Kund = existingMatch;
-                    orderTotal.KundId = existingMatch.KundId;
-                    orderTotal.Levererad = true;
-                    orderTotal.BestallningDatum = DateTime.Now;
-                }
-                else
-                {
-
-                    var temp2 = Request.Cookies["Cart"];
-                    orderTotal = JsonConvert.DeserializeObject<Bestallning>(temp2);
-                }
-                DataAccess dataAccess = new DataAccess();
-                var foodOrder = dataAccess.GetSpecificMatratt(_context, id);
-                var orderConnection = new BestallningMatratt();
-
-                orderConnection.MatrattId = foodOrder.MatrattId;
-                orderConnection.BestallningId = orderTotal.BestallningId;
-
-                orderTotal.Totalbelopp += foodOrder.Pris;
-                orderTotal.BestallningMatratt.Add(orderConnection);
-
-                var serializedValue = JsonConvert.SerializeObject(orderTotal);
-                Response.Cookies.Append("Cart", serializedValue);
-                return RedirectToAction("Menu", "Home");
-
-
+                    Antal = foodList.Count(x => x.MatrattId == foodList[0].MatrattId),
+                    MatrattId = foodList[0].MatrattId,
+                    Bestallning = order
+                };
+                dataAccess.CreateOrderConnection(_context, connection);
+                foodList = foodList.Where(x => x.MatrattId != foodList[0].MatrattId).ToList();
 
             }
 
-            return RedirectToAction("Menu", "Home");
+
+            return View();
         }
 
         public IActionResult Cart()
